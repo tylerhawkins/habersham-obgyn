@@ -1,0 +1,72 @@
+input[type="text"],input[type="tel"],input[type="email"],input[type="search"], textarea, select {
+    .easing-animation;
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid @dark-color;
+	border-radius: 0;
+    padding: 5px 15px;
+	box-shadow: none;
+    &:focus {
+        border-color: @main-color;
+    }
+}
+
+.input-submit {
+	.easing-animation;
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 14px;
+    font-weight: 700;
+    outline: none;
+	letter-spacing: 1.2px;
+    word-spacing: 2px;
+    line-height: 1.2;
+    text-align: center;
+    background-color: transparent;
+    border:0;
+	border-radius: 0;
+}
+input[type="submit"] {
+    .input-submit;
+    background-color: @main-color;
+    color: @light-color;
+
+    &:hover, &:focus, &:active {
+        background-color: @secondary-color;
+        color:@light-color;
+    }
+}
+
+select {
+    height: 50px; 
+	border-radius: 0;
+}
+
+textarea {
+    resize: none;
+    height: 115px;
+	border-radius: 0;
+}
+
+.placeholder {
+    color: @dark-color;
+}
+
+::-webkit-input-placeholder {
+    color: @dark-color;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: @dark-color;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: @dark-color;
+}
+
+:-ms-input-placeholder {
+    color: @dark-color;
+}

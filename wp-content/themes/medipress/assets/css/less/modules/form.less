@@ -1,0 +1,536 @@
+@media (max-width: 767px) {
+	.container{
+		padding-left: 25px;
+		padding-right: 25px;
+	}
+}
+.no-container{
+	> .row{
+		margin: 0;
+	}
+}
+.ro-appointment-calendar {
+	text-align: center;
+	.icon-calentar {
+		font-size: @font-size-1;
+		color: @secondary-color;
+		padding-bottom: 20px;
+	}
+	h5 {
+		color: @darkgray-color;
+		line-height: 28px;
+	}
+}
+@media (min-width: @screen-lg) {
+	.ro-appointment-calendar {
+		&:before {
+			background: @bg-color-5;
+			content: "";
+			height: 100%;
+			left: -140% !important;
+			position: absolute;
+			top: 0;
+			width: 440px;
+		}
+	}
+}
+@media (min-width: @screen-md) {
+	.ro-appointment-section {
+		.wpcf7-form {
+			padding-left: 15px;
+		}
+	}
+	.ro-appointment-calendar {
+		&:before {
+			background: @bg-color-5;
+			content: "";
+			height: 100%;
+			left: -160%;
+			position: absolute;
+			top: 0;
+			width: 440px;
+		}
+	}
+}
+.ro-form-appointment{
+	background-image: url(assets/images/medipress-bg-appointment.jpg);
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	margin-top: -175px;
+	border-radius: 5px;
+	padding-top: 10px;
+	@media (max-width: 767px) {
+		margin-top: 30px;	
+	}
+	.ro-heading{
+		.main-heading{
+			font-size: 20px;
+			padding-bottom: 4px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			margin-bottom: 6px;
+			color: #fff;
+			&::before{
+				content: '\f067';
+				font-family: FontAwesome;
+				font-size: 20px;
+				display: inline-block;
+				margin-right: 12px;
+			}
+		}
+	}
+}
+.ro-appointment {
+	::-webkit-input-placeholder { color: @darkgray-color; }
+	::-moz-placeholder { color: @darkgray-color; } /* firefox 19+ */
+	:-ms-input-placeholder { color: @darkgray-color; } /* ie */
+	input:-moz-placeholder { color: @darkgray-color; }
+	padding: 50px 50px 30px;
+	@media (max-width: 767px) {
+		padding: 50px 15px 30px;
+	}
+	input, textarea {
+		font-weight: 400;
+		margin-bottom: 30px;
+		padding: 12px 20px;
+		border-radius: 5px;
+		border: 0px;
+		box-shadow: none;
+		width: 100%;
+		min-height: 50px;
+		background-color: #fff;
+		&.ro-doctor {
+			width: 99.9%;
+			option {
+				padding: 12px 20px;
+				background: @bg-color-5;
+			}
+		}
+		&.ro-submit {
+			margin-bottom: 0;
+			.ro-btn;
+			font-size: 16px;
+			font-weight: 600;
+			background-color: #36ca3c;
+			border-color: #36ca3c;
+			color:#fff;
+			letter-spacing: 0;
+			&:hover, &:focus, &:active {
+				background-color: @secondary-color;
+				border-color: @secondary-color;
+			}
+		}
+	}
+}
+
+.ro-contact {
+	::-webkit-input-placeholder { color: @dark-color; }
+	::-moz-placeholder { color: @dark-color; } /* firefox 19+ */
+	:-ms-input-placeholder { color: @dark-color; } /* ie */
+	input:-moz-placeholder { color: @dark-color; }
+	input, select, textarea {
+		font-weight: 400;
+		font-style: italic;
+		margin-bottom: 40px;
+		padding: 10px 20px;
+		color: @dark-color;
+		border: 1px solid @gray-color;
+		width: 100%;
+		min-height: 50px;
+		&:hover, &:focus {
+			border-color: @main-color;
+		}
+	}
+	textarea {
+		min-height: 200px;
+	}
+	[type="submit"] {
+		.ro-btn;
+		font-style: normal;
+		color: @light-color;
+		background: @dark-color;
+		width: auto;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		border-radius: 30px;
+		&:hover, &:focus {
+			background: @main-color;
+		}
+		
+	}
+}
+
+.wpcf7-form {
+	.wpcf7-form-control-wrap {
+		position: relative;
+		display: block;
+	}
+	.wpcf7-not-valid-tip {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		min-width: 300px;
+	}
+	
+	div.wpcf7-validation-errors, div.wpcf7-mail-sent-ok {
+		border: none;
+		margin: 0;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+	div.wpcf7-validation-errors{
+		color: #f7e700;
+	}
+	div.wpcf7-mail-sent-ok {
+		color: #398f14;
+	}
+}
+
+.ro-find-doctor-wrapper {
+	.ro-find-doctor-form {
+		margin-bottom: 60px;
+		form > .row {
+			margin-bottom: 40px;
+		}
+		input, select {
+			font-weight: 400;
+			margin-bottom: 20px;
+			padding: 12px 20px;
+			border: 1px solid @lightgray-color-1;
+			width: 100%;
+			min-height: 50px;
+			&:hover, &:focus {
+				border-color: @main-color;
+			}
+		}
+		.ro-doctor-name-alphabet {
+			color: @dark-color;
+			background: @lightgray-color-1;
+			font-size: @font-size-6;
+			font-weight: 700;
+			text-align: center;
+			margin-bottom: 20px;
+			padding: 15px;
+			-webkit-border-radius: 50px;
+			-moz-border-radius: 50px;
+			border-radius: 50px;
+			span {
+				position: relative;
+				display: inline-block;
+				width: 30px;
+				height: 30px;
+				input {
+					cursor: pointer;
+					margin: 0;
+					min-height: 30px;
+					position: absolute;
+					top: 0;
+					left: 0;
+					opacity: 0;
+				}
+				input:checked + label, input:hover + label {
+					color: @secondary-color;
+				}
+				
+			}
+			
+		}
+		span.ro-checkbox-item {
+			position: relative;
+			display: inline-block;
+			min-width: 300px;
+			margin: 0 0 20px 0;
+			padding-left: 26px;
+			input {
+				position: absolute;
+				top: 4px;
+				left: 0;
+				width: 20px;
+				height: 20px;
+				min-height: 20px;
+				margin: 0;
+				cursor: pointer;
+				opacity: 0;
+				z-index: 99;
+			}
+			label {
+				&:before {
+					.easing-animation;
+					content: "";
+					position: absolute;
+					top: 4px;
+					left: 0;
+					width: 20px;
+					height: 20px;
+					font-family: medipress;
+					line-height: 16px;
+					text-align: center;
+					color: @light-color;
+					background: @light-color;
+					border: 1px solid @lightgray-color-0;
+					z-index: 9;
+				}
+			}
+			input:checked + label:before {
+				content: "\e00f";
+				color: @light-color;
+				background: @main-color;
+				border-color: @main-color;
+			}
+		}
+		.ro-submit, .ro-reset {
+			.ro-btn;
+			font-family: Roboto;
+			font-size: @font-size-5;
+			width: auto;
+			margin: 0 20px 20px 20px;
+			-webkit-border-radius: 30px;
+			-moz-border-radius: 30px;
+			border-radius: 30px;
+		}
+		.ro-submit {
+			color: @light-color;
+			background: @secondary-color;
+			&:hover, &:focus {
+				background: @main-color;
+			}
+		}
+		.ro-reset {
+			color: @dark-color;
+			background-color: @lightgray-color-0;
+			&:hover, &:focus {
+				color: @light-color;
+				background: @main-color;
+			}
+		}
+	}
+}
+
+.ro-comment-wrapper > h4, .ro-leave-comment-wrapper > h4 {
+	margin-top: 5px;
+	margin-bottom: 15px; 
+	font-size: 24px;
+	text-transform: none;
+	font-weight: 400;
+	color: #000;
+}
+
+.ro-comment-item {
+	padding: 40px 0; 
+	&.parent {
+		padding-bottom: 30px;
+		border-bottom: 1px solid #dedede;
+	}
+	&.depth-1 {
+		padding-left: 0; 
+	}
+	&.depth-2, &.depth-3, &.depth-4 {
+		padding-left: 100px;
+		@media (max-width: 991px) {
+			padding-left: 70px;
+		}
+		@media (max-width: 991px) {
+			padding-left: 30px;
+		}
+	}
+	.ro-avatar {
+		width: 70px;
+		float: left; 
+		img{
+			border-radius: 50%;
+		}
+	}
+	.ro-comment {
+		margin-left: 100px;
+		background-color: #f5f5f5;
+		padding: 25px 30px;
+		.ro-info {
+			margin-bottom: 25px;
+			a {
+				color: @main-color; 
+				text-transform: uppercase;
+			}
+		}
+		.ro-comment-inner{
+			padding-bottom: 8px;
+			border-bottom: 1px solid #e1e1e1;
+			margin-bottom: 20px;
+			.ro-name {
+				font-size: 16px;
+				color: @dark-color-2;
+				font-weight: 400;
+				display: inline-block;
+				margin-right: 25px;
+			}
+			.ro-time {
+				color: #545454;
+				font-size: 12px;
+				display: inline-block;
+				text-transform: uppercase;
+				margin-right: 30px; 
+			}
+			.comment-reply-link {
+				font-size: 0px;
+				&::before{
+					content: "\f112";
+					font-family: FontAwesome;
+					font-size: 18px;
+					color: @dark-color-2;
+					transition:  all .3s;
+				}
+				&:hover{
+					&::before{
+						color: @main-color;
+					}
+				}
+			}
+		}
+	}
+}
+
+/*Comment Form*/
+.comment-respond {
+	.comment-reply-title {
+		font-size: 24px;
+		margin-bottom: 50px;
+		margin-top: 20px;
+		font-weight: 400;
+		text-transform: none;
+		color: #000;
+	}
+	.comment-form {
+		input, select, textarea {
+			font-weight: 400;
+			margin-bottom: 40px;
+			padding: 10px 20px;
+			color: @dark-color;
+			border: 1px solid @gray-color;
+			width: 100%;
+			min-height: 50px;
+			&:hover, &:focus {
+				border-color: @main-color;
+			}
+			&.submit {
+				margin-top: 0px;
+				font-weight: 600;
+				color: @light-color;
+				background: @main-color;
+				border: none;
+				min-width: 160px;
+				min-height: 48px;
+				border-radius: 5px;
+				&:hover, &:focus {
+					background: @secondary-color;
+				}
+			}
+		}
+		textarea {
+			min-height: 200px;
+		}
+		.comment-form-author {
+			padding-left: 0;
+		}
+		.comment-form-email {
+			padding-right: 0;
+		}
+		.form-submit{
+			margin-bottom: 0px;
+			.submit {
+				width: auto;
+				margin-bottom: 0px;
+			}
+		}
+	}
+}
+/* Responsive Comment Form */
+@media (max-width: 991px) {
+	.comment-respond{
+		.comment-form-author, .comment-form-email {
+			padding: 0;
+		}
+	} 
+}
+.idoctor-appointment-2{
+	.ro-appointment{
+		padding: 0;
+		max-width: 500px;
+		input, textarea {
+			border: 1px solid #d0d0d0;
+			&.ro-submit {
+				margin-bottom: 0;
+				.ro-btn;
+				font-size: 16px;
+				font-weight: 600;
+				border-color: @main-color;
+				background-color: @main-color;
+				margin-top: 10px;
+				color:#fff;
+				&:hover, &:focus, &:active {
+					background-color: @secondary-color;
+					border-color: @secondary-color;
+				}
+			}
+		}
+	}
+}
+.idoctor-appointment-3{
+	.ro-appointment{
+		padding: 0 15px;
+		max-width: 480px;
+		margin: auto;
+		input, textarea {
+			border: 1px solid #d0d0d0;
+			&.ro-submit {
+				margin-bottom: 0;
+				.ro-btn;
+				font-size: 16px;
+				font-weight: 600;
+				border-color: @main-color;
+				background-color: @main-color;
+				margin-top: 10px;
+				color:#fff;
+				&:hover, &:focus, &:active {
+					background-color: @secondary-color;
+					border-color: @secondary-color;
+				}
+			}
+		}
+	}
+}
+.contact-form-2-column{
+	::-webkit-input-placeholder { color: @dark-color-2; }
+	::-moz-placeholder { color: @dark-color-2; } /* firefox 19+ */
+	:-ms-input-placeholder { color: @dark-color-2; } /* ie */
+	input:-moz-placeholder { color: @dark-color-2; }
+	.cf-item {
+		.wpcf7-text, .wpcf7-textarea{
+			padding: 10px 15px;
+			line-height: 28px;
+			margin-bottom: 30px;
+			border-color: #e1e1e1;
+			color: @dark-color-2;
+		}
+		.wpcf7-textarea{
+			min-height: 270px;
+		}
+	}
+	.cf-submit{
+		text-align: center;
+		.ro-submit{
+			margin: 20px auto 30px;
+			border-radius: 3px;
+			padding: 10px 47px;
+			font-size: 16px;
+			line-height: 28px;
+		}
+	}
+	&.ro-appointment-2{
+		.cf-item {
+			.wpcf7-text, .wpcf7-textarea{
+				margin-bottom: 40px;
+				border-radius: 5px;
+			}
+		}
+	}
+}

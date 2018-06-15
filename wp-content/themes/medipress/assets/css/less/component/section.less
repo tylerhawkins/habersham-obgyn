@@ -1,0 +1,30 @@
+.ro-welcome-section {
+	.wpb_content_element {
+		margin-bottom: 0;
+	}
+}
+.ro-appointment-section {
+	background: @tb_primary_color;
+	background:-moz-linear-gradient(-11deg, spin( @tb_primary_color, 10) 0%, spin(@tb_primary_color, -10) 100%);
+	background:-webkit-gradient(right top,left top,spin( @tb_primary_color, 10) 0%, spin( @tb_primary_color, 10) 100%);
+	background:-webkit-linear-gradient(-11deg,mix(#000, @tb_primary_color, 20%) 0%, mix(#fff, @tb_primary_color, 20%) 100%);
+	background:-o-linear-gradient(-11deg,spin( @tb_primary_color, 10) 0%, spin(@tb_primary_color, -10) 100%);
+	background:-ms-linear-gradient(-11deg,spin( @tb_primary_color, 10) 0%, spin(@tb_primary_color, -10) 100%);
+	background:linear-gradient(-11deg,spin( @tb_primary_color, 10) 0%, spin(@tb_primary_color, -10) 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00abc2',endColorstr='#008fd5',GradientType=1);
+}
+.ro-btn-services-action .ro-btn-wrap .vc_btn3 {
+	font-family: Roboto;
+	&:hover {
+		background: @main-color !important;
+	}
+}
+
+@media (max-width: @screen-sm - 1) {
+	.ro-btn-services-action .ro-btn-wrap {
+		text-align: center !important;
+		&:first-child {
+			margin-bottom: 30px !important;
+		}
+	}
+}

@@ -1,0 +1,112 @@
+@padding-h: 20px;
+@padding-v: 0px;
+
+.ro-btn {
+    .easing-animation;
+    display: inline-block;
+    padding: @padding-v @padding-h;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    line-height: 1.2;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid #333;
+	min-width: 160px;
+	min-height: 50px;
+	border-radius: 5px;
+	line-height: 48px;
+}
+
+.ro-btn-style2 {
+    .easing-animation;
+    display: inline-block;
+    padding: @padding-v @padding-h;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    line-height: 1.2;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid #333;
+	min-width: 130px;
+	min-height: 40px;
+	border-radius: 5px;
+	line-height: 40px;
+	&.ro-btn-3 {
+		color: @main-color;
+		&:hover, &:focus, &:active {
+			color:@light-color;
+			background-color: @secondary-color;
+		}
+	}
+}
+
+.ro-btn-bd(@thick, @bd-color) {
+    .ro-btn;
+    padding: (@padding-v - @thick) (@padding-h - @thick);
+    border: 1px solid @bd-color;
+}
+
+.ro-btn-1 {
+    background-color: @main-color;
+    color: @light-color;
+	border-color: @main-color;
+    &:hover, &:focus, &:active {
+        background-color: @secondary-color;
+        color:@light-color;
+		border-color: @secondary-color;
+    }
+}
+
+.ro-btn-2 {
+    background-color: @secondary-color;
+    color: @light-color;
+	border-color: @secondary-color;
+    &:hover, &:focus, &:active {
+        background-color: @main-color;
+        color:@light-color;
+		border-color: @main-color;
+    }
+}
+.ro-btn-3 {
+    background-color: @light-color;
+	border-color: @main-color;
+    &:hover, &:focus, &:active {
+        background-color: @main-color;
+        color:@light-color;
+    }
+}
+
+.ro-btn-bd-1 {
+    .ro-btn-bd(1px, @dark-color);
+
+    &:hover, &:focus, &:active {
+        background-color: @main-color;
+        border-color: @main-color;
+        color: @light-color;
+    }
+}
+
+.ro-btn-bd-2 {
+    .ro-btn-bd(1px, @dark-color);
+    background-color: @light-color;
+
+    &:hover, &:focus, &:active {
+        background-color: @main-color;
+        border-color: @main-color;
+        color: @light-color;
+    }
+}
+
+.ro-btn-bdr-1 {
+    .ro-btn-bd(1px, @dark-color);
+    border-radius: 20px;
+    background-color: @lightgray-color;
+}
+
+.ro-btn-bdr-2 {
+    .ro-btn-bd(1px, @dark-color);
+    background-color: @main-color;
+    border-radius: 20px;
+}
