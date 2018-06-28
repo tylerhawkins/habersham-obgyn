@@ -7,13 +7,13 @@
 	<div class="ro-header-v1 <?php echo esc_attr($cl_stick); ?>">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<a class="ro-logo" href="<?php echo esc_url(home_url()); ?>">
 						<?php ro_theme_logo(); ?>
 					</a>
 					<div id="ro-hamburger" class="ro-hamburger visible-xs visible-sm"><i class="icon icon-menu"></i></div>
 				</div>
-				<div class="col-md-10 ro-header-right">
+				<div class="col-md-9 ro-header-right">
 					<?php
 					$manage_location = $tb_options['tb_manage_location'];
 					$arr = array(

@@ -145,7 +145,7 @@
 					font-family: FontAwesome;
 					font-size: 18px;
 					left: 19px;
-					color: @main-color;
+					color: @darkgray-color;
 					top: 50%;
 					-webkit-transform: translateY(-50%);
 					-moz-transform: translateY(-50%);
@@ -169,7 +169,7 @@
 .top-ro-footer-1{
 	padding-top: 115px;
 	.contact-info{
-		background-color: #0f8cd5;
+		background-color: #e8625c;
 		color: #fff;
 		position: relative;
 		bottom: -100px;
@@ -247,6 +247,7 @@
 }
 .ro-footer-top-1{
 	font-size: 13px;
+	background-color: #f4f4f4 !important;
 	.same-height{
 		> .col-xs-12{
 			margin-bottom: 30px;
@@ -259,16 +260,16 @@
 			width: 40px;
 			height: 40px;
 			line-height: 40px;
-			border: 1px solid @main-color;
+			border: 1px solid @dark-color-2;
 			border-radius: 50%;
 			margin-right: 10px;
-			background-color: @main-color;
+			background-color: @dark-color-2;
 			text-align: center;
 			transition: all .3s;
 			&:hover{
 				background-color: transparent;
 				a{
-					color: @main-color;
+					color: @dark-color-2;
 				}
 			}
 			a{
@@ -324,7 +325,7 @@
 						font-size: 13px;
 						font-weight: 400;
 						a{
-							color: @main-color;
+							color: @darkgray-color;
 							position: relative;
 							padding-left: 30px;
 							&::after{
@@ -340,15 +341,15 @@
 								height: 16px;
 								text-align: center;
 								line-height: 16px;
-								background-color: @main-color;
+								background-color: @gray-color;
 								border-radius: 50%;
 								
 							}
 							&.collapsed{
-								color: #d5d5d5;
+								color: @darkgray-color;
 								&::after{
 									content: "\f067";
-									background-color: #d5d5d5;
+									background-color: @gray-color;
 								}
 							}
 						}
@@ -362,7 +363,7 @@
 		}
 	}
 	.footer-read-all{
-		color: #ffb900 !important;
+		color: @dark-color-2 !important;
 		font-size: 12px;
 		&::after{
 			content: "\f101";

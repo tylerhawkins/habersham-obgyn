@@ -107,7 +107,7 @@ if (!function_exists('ro_theme_page_title')) {
     function ro_theme_page_title() { 
             ob_start();
 			if( is_home() ){
-				_e('Home', 'medipress');
+				_e('Blog', 'medipress');
 			}elseif(is_search()){
                 _e('Search Keyword: ', 'medipress'). '<span class="keywork">'. get_search_query( false ). '</span>';
             }elseif (!is_archive()) {
@@ -164,7 +164,7 @@ if (!function_exists('ro_theme_page_breadcrumb')) {
             global $post;
             $homeLink = home_url();
 			if( is_home() ){
-				_e('Home', 'medipress');
+				_e('Blog', 'medipress');
 			}else{
 				echo '<a href="' . $homeLink . '">' . $home . '</a> ' . $delimiter . ' ';
 			}
