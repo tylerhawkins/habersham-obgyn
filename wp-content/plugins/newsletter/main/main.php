@@ -14,13 +14,13 @@ if (!$controls->is_action()) {
 
         // Validation
         $controls->data['sender_email'] = $module->normalize_email($controls->data['sender_email']);
-        if (!$newsletter->is_email($controls->data['sender_email'])) {
+        if (!$module->is_email($controls->data['sender_email'])) {
             $controls->errors .= __('The sender email address is not correct.', 'newsletter') . '<br>';
         } else {
             $controls->data['sender_email'] = $module->normalize_email($controls->data['sender_email']);
         }
 
-        if (!$newsletter->is_email($controls->data['return_path'], true)) {
+        if (!$module->is_email($controls->data['return_path'], true)) {
             $controls->errors .= __('Return path email is not correct.', 'newsletter') . '<br>';
         } else {
             $controls->data['return_path'] = $module->normalize_email($controls->data['return_path']);
@@ -58,12 +58,17 @@ if (!$controls->is_action()) {
         $page['comment_status'] = 'closed';
         $page['ping_status'] = 'closed';
         $page['post_category'] = array(1);
-
+        
+        $current_language = $module->get_current_language();
+        $module->switch_language('');
         // Insert the post into the database
         $page_id = wp_insert_post($page);
+        $module->switch_language($current_language);
 
         $controls->data['page'] = $page_id;
         $module->merge_options($controls->data);
+        
+        $controls->messages = 'A new page has been created';
     }
 }
 
@@ -109,17 +114,14 @@ if (!empty($return_path)) {
 }
 
 ?>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" type="text/css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/hint/show-hint.css">
+
+<?php include NEWSLETTER_INCLUDES_DIR . '/codemirror.php'; ?>
 <style>
     .CodeMirror {
         border: 1px solid #ddd;
     }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/css/css.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/hint/show-hint.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/hint/css-hint.js"></script>
+
 <script>
     jQuery(function () {
         var editor = CodeMirror.fromTextArea(document.getElementById("options-css"), {
@@ -140,6 +142,7 @@ if (!empty($return_path)) {
 
     </div>
     <div id="tnp-body" class="tnp-main-main">
+        
 
         <form method="post" action="">
             <?php $controls->init(); ?>
@@ -192,7 +195,7 @@ if (!empty($return_path)) {
                         <tr>
                             <th><?php _e('Dedicated page', 'newsletter') ?></th>
                             <td>
-                                <?php $controls->page('page', __('Unstyled page', 'newsletter')); ?>
+                                <?php $controls->page('page', __('Unstyled page', 'newsletter'), '', true); ?>
                                 <?php
                                 if (empty($controls->data['page'])) {
                                     $controls->button('create', __('Create the page', 'newsletter'));
@@ -275,7 +278,16 @@ if (!empty($return_path)) {
                                 <?php $controls->log_level('log_level'); ?>
                             </td>
                         </tr>
-                        
+                        <!--
+                        <tr>
+                            <th>
+                                <?php _e('Disable the scheduler notice', 'newsletter') ?>
+                            </th>
+                            <td>
+                                <?php $controls->yesno('disable_cron_notice'); ?>
+                            </td>
+                        </tr>
+                        -->
                         <tr>
                             <th><?php _e('IP addresses', 'newsletter')?></th>
                             <td>
@@ -324,6 +336,7 @@ if (!empty($return_path)) {
             </p>
 
         </form>
+
     </div>
 
     <?php include NEWSLETTER_DIR . '/tnp-footer.php'; ?>

@@ -1,4 +1,4 @@
-.xdsoft_datetimepicker.xdsoft_noselect {
+.fw_xdsoft_datetimepicker.fw_xdsoft_noselect {
 	z-index: 560100; /* bigger than fw.OptionsModal's z-index */
 }
 
@@ -7,5 +7,4 @@
 }
 .fw-option-type-datetime-picker input[readonly] {
 	background-color: #fff;
-	cursor: pointer;
 }

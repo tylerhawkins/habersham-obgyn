@@ -374,7 +374,7 @@ class NewsletterControls {
         }
         $this->messages .= __('Saved.', 'newsletter');
     }
-    
+
     function add_message_deleted() {
         if (!empty($this->messages)) {
             $this->messages .= '<br><br>';
@@ -387,13 +387,23 @@ class NewsletterControls {
             $this->messages .= '<br><br>';
         }
         $this->messages .= __('Options reset.', 'newsletter');
-    }    
+    }
 
     function add_message_done() {
         if (!empty($this->messages)) {
             $this->messages .= '<br><br>';
         }
         $this->messages .= __('Done.', 'newsletter');
+    }
+
+    function add_language_warning() {
+        $newsletter = Newsletter::instance();
+        $current_language = $newsletter->get_current_language();
+
+        if (!$current_language) {
+            return;
+        }
+        $this->warnings[] = 'You are configuring the language <strong>' . $newsletter->get_language_label($current_language) . '</strong>. Switch to "all languages" to see every options.';
     }
 
     function hint($text, $url = '') {
@@ -539,11 +549,29 @@ class NewsletterControls {
         $this->select($name, $options);
     }
 
-    function page($name = 'page', $first = null) {
-        $pages = get_pages();
+    function page($name = 'page', $first = null, $language = '', $show_id = false) {
+        $args = array(
+            'post_type' => 'page',
+            'posts_per_page' => 1000,
+            'offset' => 0,
+            'orderby' => 'post_title',
+            'post_status' => 'any',
+            'suppress_filters' => true
+        );
+
+        $pages = get_posts($args);
+        //$pages = get_pages();
         $options = array();
         foreach ($pages as $page) {
-            $options[$page->ID] = $page->post_title;
+            /* @var $page WP_Post */
+            $label = $page->post_title;
+            if ($page->post_status != 'publish') {
+                $label .= ' (' . $page->post_status . ')';
+            }
+            if ($show_id) {
+                $label .= ' [' . $page->ID . ']';
+            }
+            $options[$page->ID] = $label;
         }
         $this->select($name, $options, $first);
     }
@@ -749,7 +777,6 @@ class NewsletterControls {
     function button_save($function = null) {
         $this->button_primary('save', '<i class="fa fa-save"></i> ' . __('Save', 'newsletter'), $function);
     }
-   
 
     function button_reset($data = '') {
         echo '<button class="button-secondary" onclick="this.form.btn.value=\'' . esc_attr($data) . '\';this.form.act.value=\'reset\';if (!confirm(\'';
@@ -955,7 +982,7 @@ class NewsletterControls {
     function color($name) {
 
         $value = $this->get_value($name);
-        echo '<input id="options-', esc_attr($name), '" class="tnp-controls-color" name="options[' . $name . ']" type="text" size="' . $size . '" value="';
+        echo '<input id="options-', esc_attr($name), '" class="tnp-controls-color" name="options[' . $name . ']" type="text" value="';
         echo esc_attr($value);
         echo '">';
     }
@@ -999,15 +1026,14 @@ class NewsletterControls {
      * Empty preferences are skipped.
      */
     function preferences($name = 'preferences') {
-        $lists = NewsletterSubscription::instance()->options_lists;
+        $lists = Newsletter::instance()->get_lists();
+        
         echo '<div class="newsletter-preferences-group">';
 
-        for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
-            if (empty($lists['list_' . $i])) {
-                continue;
-            }
+        foreach ($lists as $list) {
+            
             echo '<div class="newsletter-preferences-item">';
-            $this->checkbox2($name . '_' . $i, esc_html($lists['list_' . $i]));
+            $this->checkbox2($name . '_' . $list->id, esc_html($list->name));
             echo '</div>';
         }
     }
@@ -1018,15 +1044,14 @@ class NewsletterControls {
      * will be an array if at east one preference is checked).
      */
     function preferences_group($name = 'preferences') {
-        $lists = NewsletterSubscription::instance()->options_lists;
+        
+        $lists = Newsletter::instance()->get_lists();
 
         echo '<div class="newsletter-preferences-group">';
-        for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
-            if (empty($lists['list_' . $i])) {
-                continue;
-            }
+        foreach ($lists as $list) {
+            
             echo '<div class="newsletter-preferences-item">';
-            $this->checkbox_group($name, $i, '(' . $i . ') ' . esc_html($lists['list_' . $i]));
+            $this->checkbox_group($name, $list->id, '(' . $list->id . ') ' . esc_html($list->name));
             echo '</div>';
         }
         echo '<div style="clear: both"></div>';
@@ -1040,18 +1065,15 @@ class NewsletterControls {
      * 'any', 'yes', 'no' corresponding to the values 0, 1, 2.
      */
     function preferences_selects($name = 'preferences', $skip_empty = false) {
-        $lists = NewsletterSubscription::instance()->options_lists;
+        $lists = Newsletter::instance()->get_lists();
 
         echo '<div class="newsletter-preferences-group">';
-        for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
-            if (empty($lists['list_' . $i])) {
-                continue;
-            }
+        foreach ($lists as $list) {
 
             echo '<div class="newsletter-preferences-item">';
 
-            $this->select($name . '_' . $i, array(0 => 'Any', 1 => 'Yes', 2 => 'No'));
-            echo '(' . $i . ') ' . esc_html($lists['list_' . $i]);
+            $this->select($name . '_' . $list->id, array(0 => 'Any', 1 => 'Yes', 2 => 'No'));
+            echo '(' . $list->id . ') ' . esc_html($list->name);
 
             echo '</div>';
         }
@@ -1064,28 +1086,13 @@ class NewsletterControls {
      * Creates a single select with the active preferences. 
      */
     function preferences_select($name = 'preference', $empty_label = null) {
-        $options = NewsletterSubscription::instance()->options_lists;
-
-        $lists = array();
-        if ($empty_label) {
-            $lists[''] = $empty_label;
-        }
-        for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
-            $lists['' . $i] = '(' . $i . ') ' . $options['list_' . $i];
-        }
+        $lists = $this->get_list_options($empty_label);
         $this->select($name, $lists);
         echo ' <a href="admin.php?page=newsletter_subscription_lists" target="_blank"><i class="fa fa-edit"></i></a>';
     }
 
     function lists_select($name = 'list', $empty_label = null) {
-        $objs = Newsletter::instance()->get_lists();
-        $lists = array();
-        if ($empty_label) {
-            $lists[''] = $empty_label;
-        }
-        foreach ($objs as $list) {
-            $lists['' . $list->id] = '[' . $list->id . '] ' . $list->name;
-        }
+        $lists = $this->get_list_options($empty_label);
         $this->select($name, $lists);
     }
 
@@ -1095,13 +1102,13 @@ class NewsletterControls {
      * @return array
      */
     function get_list_options($empty_label = null) {
-        $options_profile = NewsletterSubscription::instance()->options_lists;
+        $objs = Newsletter::instance()->get_lists();
         $lists = array();
         if ($empty_label) {
             $lists[''] = $empty_label;
         }
-        for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
-            $lists['' . $i] = '(' . $i . ') ' . $options_profile['list_' . $i];
+        foreach ($objs as $list) {
+            $lists['' . $list->id] = '(' . $list->id . ') ' . esc_html($list->name);
         }
         return $lists;
     }
@@ -1323,6 +1330,12 @@ class NewsletterControls {
         return NewsletterUsers::instance()->get_test_users();
     }
 
+    function css_font($name = 'font', $attrs = array()) {
+        $this->css_font_family($name . '_family');
+        $this->css_font_size($name . '_size');
+        $this->css_font_weight($name . '_weight');
+    }
+
     function css_font_size($name = 'font_size') {
         $value = $this->get_value($name);
 
@@ -1334,7 +1347,23 @@ class NewsletterControls {
             }
             echo '>' . $i . '</option>';
         }
-        echo '</select>&nbsp;px';
+        echo '</select>';
+    }
+    
+    function css_font_weight($name = 'font_weight') {
+        $value = $this->get_value($name);
+
+        $fonts = array('Normal', 'Bold');
+
+        echo '<select id="options-' . esc_attr($name) . '" name="options[' . esc_attr($name) . ']">';
+        foreach ($fonts as $font) {
+            echo '<option value="', esc_attr($font), '"';
+            if ($value == $font) {
+                echo ' selected';
+            }
+            echo '>', esc_html($font), '</option>';
+        }
+        echo '</select>';
     }
 
     function css_font_family($name = 'font_family') {
@@ -1396,7 +1425,7 @@ class NewsletterControls {
      * @param string $name
      */
     function media($name) {
-        if (isset($this->data[$name])) {
+        if (isset($this->data[$name]['id'])) {
             $media_id = (int) $this->data[$name]['id'];
             $media = wp_get_attachment_image_src($media_id, 'medium');
             $media_full = wp_get_attachment_image_src($media_id, 'full');
@@ -1429,6 +1458,45 @@ class NewsletterControls {
         $output .= '<br class="clear"/>';
 
         echo $output;
+    }
+
+    function language($name = 'language') {
+        if (!class_exists('SitePress') && !function_exists('pll_default_language') && !class_exists('TRP_Translate_Press')) {
+            echo __('Install a multilanguage plugin.', 'newsletter');
+            echo ' <a href="https://www.thenewsletterplugin.com/documentation/multilanguage" target="_blank">', __('Read more', 'newsletter'), '</a>';
+            return;
+        }
+
+        $languages = Newsletter::instance()->get_languages();
+        $languages = array_merge(array('' => 'All'), $languages);
+        
+        $this->select($name, $languages);
+    }
+
+    function is_multilanguage() {
+        return Newsletter::instance()->is_multilanguage();
+    }
+
+    /**
+     * Creates a checkbox group with all active languages. Each checkbox is named
+     * $name[] and values with the relative language code.
+     * 
+     * @param string $name
+     */
+    function languages($name = 'languages') {
+        if (!$this->is_multilanguage()) {
+            echo __('Install WPML or Polylang for multilanguage support', 'newsletter');
+            return;
+        }
+
+        $language_options = Newsletter::instance()->get_languages();
+
+        if (empty($language_options)) {
+            echo __('Your multilanguage plugin is not supported or there are no languages defined', 'newsletter');
+            return;
+        }
+
+        $this->checkboxes_group($name, $language_options);
     }
 
     /**
@@ -1512,6 +1580,21 @@ class NewsletterControls {
             return esc_html($text);
         $sub = mb_substr($text, 0, $size);
         echo '<span title="', esc_attr($text), '">', esc_html($sub), '...</span>';
+    }
+
+    function block_background($name = 'block_background') {
+        $this->color($name);
+    }
+
+    function block_padding($name = 'block_padding') {
+        $this->text($name . '_top', 5);
+        echo 'px (top)<br>';
+        $this->text($name . '_right', 5);
+        echo 'px (right)<br>';
+        $this->text($name . '_bottom', 5);
+        echo 'px (bottom)<br>';
+        $this->text($name . '_left', 5);
+        echo 'px (left)<br>';
     }
 
 }

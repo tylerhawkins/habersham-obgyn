@@ -5,11 +5,19 @@ defined('ABSPATH') || exit;
 $controls = new NewsletterControls();
 $module = NewsletterSubscription::instance();
 
+$current_language = $module->get_current_language();
+
+$is_all_languages = $module->is_all_languages();
+
+if (!$is_all_languages) {
+    $controls->warnings[] = 'You are configuring the language <strong>' . $current_language . '</strong>.';
+}
+
 if (!$controls->is_action()) {
-    $controls->data = $module->get_options('template');
+    $controls->data = $module->get_options('template', $current_language);
 } else {
     if ($controls->is_action('save')) {
-        $module->save_options($controls->data, 'template');
+        $module->save_options($controls->data, 'template', null, $current_language);
 
         if (strpos($controls->data['template'], '{message}') === false) {
             $controls->errors = __('The tag {message} is missing in your template', 'newsletter');
@@ -19,8 +27,9 @@ if (!$controls->is_action()) {
     }
 
     if ($controls->is_action('reset')) {
-        $controls->data['template'] = file_get_contents(dirname(__FILE__) . '/email.html');
-        $module->save_options($controls->data, 'template');
+        // TODO: Reset by language?
+        $module->reset_options('template');
+        $controls->data = $module->get_options('template', $current_language);
         $controls->add_message_done();
     }
 
@@ -53,21 +62,12 @@ if (!$controls->is_action()) {
 }
 ?>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" type="text/css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/hint/show-hint.css">
+<?php include NEWSLETTER_INCLUDES_DIR . '/codemirror.php'; ?>
 <style>    
     .CodeMirror {
         height: 100%;
     }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/xml/xml.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/css/css.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/javascript/javascript.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/htmlmixed/htmlmixed.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/hint/show-hint.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/hint/xml-hint.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/hint/html-hint.js"></script>
 <script>
     jQuery(function () {
         templateEditor = CodeMirror.fromTextArea(document.getElementById("options-template"), {

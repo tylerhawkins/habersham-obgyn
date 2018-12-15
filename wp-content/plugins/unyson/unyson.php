@@ -3,7 +3,7 @@
  * Plugin Name: Unyson
  * Plugin URI: http://unyson.io/
  * Description: A free drag & drop framework that comes with a bunch of built in extensions that will help you develop premium themes fast & easy.
- * Version: 2.7.17
+ * Version: 2.7.20
  * Author: ThemeFuse
  * Author URI: http://themefuse.com
  * License: GPL2+
@@ -132,8 +132,6 @@ if (defined('FW')) {
 					 * After plugin successfully updated
 					 */
 					do_action( 'fw_plugin_post_update' );
-
-					wp_redirect( admin_url( 'admin.php?page=fw-new' ) );
 				}
 
 				return $result;

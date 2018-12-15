@@ -20,7 +20,7 @@ class NewsletterProfile extends NewsletterModule {
 
     function __construct() {
         parent::__construct('profile', '1.1.0');
-        add_action('init', array($this, 'hook_init'));
+        add_action('init', array($this, 'hook_init'), 1);
         add_action('wp_loaded', array($this, 'hook_wp_loaded'));
         add_shortcode('newsletter_profile', array($this, 'shortcode_newsletter_profile'));
     }
@@ -30,7 +30,7 @@ class NewsletterProfile extends NewsletterModule {
             add_action('wp_ajax_newsletter_users_export', array($this, 'hook_wp_ajax_newsletter_users_export'));
         }
         add_filter('newsletter_replace', array($this, 'hook_newsletter_replace'), 10, 3);
-        add_filter('newsletter_page_text', array($this, 'hook_newsletter_page_text'), 10, 2);
+        add_filter('newsletter_page_text', array($this, 'hook_newsletter_page_text'), 10, 3);
     }
 
     function hook_wp_loaded() {
@@ -102,9 +102,20 @@ class NewsletterProfile extends NewsletterModule {
         return $text;
     }
 
-    function hook_newsletter_page_text($text, $key) {
+    /**
+     * 
+     * @param type $text
+     * @param type $key
+     * @param TNP_User $user
+     * @return string
+     */
+    function hook_newsletter_page_text($text, $key, $user) {
         if ($key == 'profile') {
-            return $this->options['text'];
+            if (!$user || $user->status == TNP_User::STATUS_UNSUBSCRIBED) {
+                return 'Subscriber not found.';
+            }
+            $options = $this->get_options('main', $this->get_current_language($user));
+            return $options['text'];
         }
         return $text;
     }
@@ -189,13 +200,14 @@ class NewsletterProfile extends NewsletterModule {
 
     function get_profile_form($user) {
         // Do not pay attention to option name here, it's a compatibility problem
-        $options = NewsletterSubscription::instance()->options_profile;
-        $options_lists = NewsletterSubscription::instance()->options_lists;
+        
+        $language = $this->get_user_language($user);
+        $options = NewsletterSubscription::instance()->get_options('profile', $language);
 
         $buffer = '';
 
         $buffer .= '<div class="tnp tnp-profile">';
-        $buffer .= '<form action="' . esc_attr($this->get_home_url() . '?na=ps') . '" method="post" onsubmit="return newsletter_check(this)">';
+        $buffer .= '<form action="' . $this->build_action_url('ps') . '" method="post" onsubmit="return newsletter_check(this)">';
         $buffer .= '<input type="hidden" name="nk" value="' . esc_attr($user->id . '-' . $user->token) . '">';
 
         $buffer .= '<div class="tnp-field tnp-field-email">';
@@ -263,7 +275,7 @@ class NewsletterProfile extends NewsletterModule {
         }
 
         // Lists
-        $lists = $this->get_lists_for_profile();
+        $lists = $this->get_lists_for_profile($language);
         $tmp = '';
         foreach ($lists as $list) {
 
@@ -356,8 +368,12 @@ class NewsletterProfile extends NewsletterModule {
 
         // General data
         $data['email'] = $email;
-        $data['name'] = $this->normalize_name(stripslashes($_REQUEST['nn']));
-        $data['surname'] = $this->normalize_name(stripslashes($_REQUEST['ns']));
+        if (isset($_REQUEST['nn'])) {
+            $data['name'] = $this->normalize_name(stripslashes($_REQUEST['nn']));
+        }
+        if (isset($_REQUEST['ns'])) {
+            $data['surname'] = $this->normalize_name(stripslashes($_REQUEST['ns']));
+        }
         if ($options_profile['sex_status'] >= 1) {
             $data['sex'] = $_REQUEST['nx'][0];
             // Wrong data injection check
@@ -446,10 +462,11 @@ class NewsletterProfile extends NewsletterModule {
 
     // Patch to avoid conflicts with the "newsletter_profile" option of the subscription module
     // TODO: Fix it
-    public function get_prefix($sub = '') {
-        if (empty($sub))
+    public function get_prefix($sub = '', $language='') {
+        if (empty($sub)) {
             $sub = 'main';
-        return parent::get_prefix($sub);
+        }
+        return parent::get_prefix($sub, $language);
     }
 
 }

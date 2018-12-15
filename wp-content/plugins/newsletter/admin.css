@@ -3,7 +3,7 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:400,600);
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 @import url(css/dropdown.css);
-@import url(//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css);
+@import url(vendor/jquery-ui/jquery-ui.min.css);
 
 /* Bootstrap like */
 
@@ -159,22 +159,28 @@
 .tnp-error {
     border-left: 5px solid #dd0000;
     background-color: #fff;
-    padding: 10px;
+    padding: 15px;
     margin: 15px 0; 
+    font-size: 1.2em;
+    line-height: 1.5em;
 }
 
 .tnp-warning {
     border-left: 5px solid #ffb900;
     background-color: #fff;
-    padding: 10px;
+    padding: 15px;
     margin: 15px 0; 
+    font-size: 1.2em;
+    line-height: 1.5em;
 }
 
 .tnp-message {
     border-left: 5px solid #46b450;
     background-color: #fff;
-    padding: 10px;
+    padding: 15px;
     margin: 15px 0;
+    font-size: 1.2em;
+    line-height: 1.5em;
 }
 
 /* Default font colors for our dark background page body */
@@ -721,10 +727,7 @@ p.description {
 #tnp-body {
     padding: 10px;
     background-color: #28313C;
-    border-color: #28313C;
-    border-width: 10px;
-    border-style: solid;
-    /*overflow: auto;*/
+    /*border-color: 10px solid #28313C;*/
 }
 
 .tnp-darkbg {
@@ -753,7 +756,7 @@ p.description {
 
 #tnp-heading {
     padding: 10px;
-    background-color: #28313C;
+    /*background-color: #28313C;*/
     margin-bottom: 10px;
     border-radius: 5px;
 }
@@ -778,6 +781,19 @@ p.description {
     font-family: "Montserrat", sans-serif;
     letter-spacing: 0.1rem;
     font-size: 1.1rem;
+    line-height: 1.8rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    font-weight: 700;
+    padding: 0;
+    margin: 0px;
+}
+
+#tnp-heading h3 {
+    color: #27AE60;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0.1rem;
+    font-size: .8rem;
     line-height: 1.8rem;
     text-transform: uppercase;
     vertical-align: middle;
@@ -1163,7 +1179,8 @@ span.wp-media-buttons-icon:before {
 }
 
 .notice a {
-    color: #000 !important;
+    color: #27AE60 !important;
+    text-decoration: underline!important;
 }
 
 .tnp-chart {
@@ -2066,4 +2083,30 @@ iframe.tnp-editor-preview-desktop {
      margin-right: 20px; 
      height: 500px; 
      float: left;
+}
+
+
+/* Form inserimento licenza in Addons Manager */
+
+#tnp-license-control  {
+    border: 2px solid #27313C;
+    display: inline-block;
+    padding: 15px 25px;
+    margin-left: -10px;
+    margin-top: 15px;
+    border-radius: 2px;
+}
+
+#tnp-license-control form {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#tnp-license-control form input {
+    padding-left: 10px;
+}
+
+#tnp-license-control a {
+    border-bottom: none;
+
 }
