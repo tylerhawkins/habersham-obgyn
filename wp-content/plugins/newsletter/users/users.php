@@ -19,7 +19,7 @@ class NewsletterUsers extends NewsletterModule {
     }
 
     function __construct() {
-        parent::__construct('users', '1.2.4');
+        parent::__construct('users', '1.2.6');
         add_action('init', array($this, 'hook_init'));
     }
 
@@ -30,10 +30,10 @@ class NewsletterUsers extends NewsletterModule {
     }
 
     function hook_wp_ajax_newsletter_users_export() {
-        require_once NEWSLETTER_INCLUDES_DIR . '/controls.php';
-        $controls = new NewsletterControls();
+
         $newsletter = Newsletter::instance();
         if (current_user_can('manage_options') || ($newsletter->options['editor'] == 1 && current_user_can('manage_categories'))) {
+            require_once NEWSLETTER_INCLUDES_DIR . '/controls.php';
             $controls = new NewsletterControls();
 
             if ($controls->is_action('export')) {
@@ -69,6 +69,7 @@ class NewsletterUsers extends NewsletterModule {
   `feed` tinyint(4) NOT NULL DEFAULT '0',
   `referrer` varchar(50) NOT NULL DEFAULT '',
   `ip` varchar(50) NOT NULL DEFAULT '',
+  `last_ip` varchar(50) NOT NULL DEFAULT '',
   `wp_user_id` int(11) NOT NULL DEFAULT '0',
   `http_referer` varchar(255) NOT NULL DEFAULT '',
   `country` varchar(4) NOT NULL DEFAULT '',
@@ -92,6 +93,7 @@ class NewsletterUsers extends NewsletterModule {
 
         dbDelta($sql);
         
+        $this->query("update " . NEWSLETTER_USERS_TABLE . " set last_ip=ip where last_ip=''");
     }
 
     function admin_menu() {
