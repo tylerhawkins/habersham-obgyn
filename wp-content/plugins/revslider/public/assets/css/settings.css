@@ -179,6 +179,21 @@ website:   	http://www.themepunch.com
 	overflow:visible;
 }
 
+.rev_slider .tp-bgimg {
+	position: relative;
+}
+
+.rev_slider .tp-bgimg:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0,0.4);
+}
+
 .entry-content .rev_slider a,
 .rev_slider a { box-shadow: none; }
 

@@ -2530,8 +2530,17 @@ p { margin-bottom:15px; }
   text-align:right;
   color:#e8625C;
 }
+@media only screen and (min-width: 768px) {
+  body h2 {
+    font-size:34px !important;
+    line-height:38px !important;
+  }
+}
 @media (max-width: 767px) {
-  body h2 { font-size:40px; }
+  body h2 {
+    font-size:28px !important;
+    line-height:32px !important;
+  }
 }
 .ro-color-main { color:#e8625C; }
 .ro-color-secondary { color:#356565; }
@@ -4789,7 +4798,8 @@ ul.ro-fancy-list .ro-fancy-item i {
   .ro-form-appointment { margin-top:30px; }
 }
 .ro-form-appointment .ro-heading .main-heading {
-  font-size:20px;
+  font-size:20px !important;
+  line-height:60px !important;
   padding-bottom:4px;
   border-bottom:1px solid rgba(255,255,255,0.1);
   margin-bottom:6px;
